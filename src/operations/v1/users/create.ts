@@ -5,7 +5,7 @@ import { Operation } from "../../operation"
 import { AccessToken, newAccessToken } from "../../../services/internal/access-tokens"
 import { RefreshToken, newRefreshToken } from "../../../services/internal/refresh-tokens"
 
-export type Input = Pick<User, 'name' | 'email' | 'password'> & Pick<RefreshToken, 'ipAddress'>
+export type Input = Pick<User, 'name' | 'email' | 'password' | 'dateOfBirth' | 'readingPreferences'> & Pick<RefreshToken, 'ipAddress'>
 
 export interface Output {
   user: User
@@ -15,7 +15,7 @@ export interface Output {
 
 class CreateUser extends Operation<Input, Output> {
    protected async run(requestData: Input): Promise<Output> {
-    const {name, email, password, ipAddress} = requestData
+    const {name, email, password, dateOfBirth, readingPreferences, ipAddress} = requestData
     const existingUser: User | undefined = await userRepository.findByEmail(email)
     
     if (existingUser) {
@@ -26,6 +26,8 @@ class CreateUser extends Operation<Input, Output> {
       name,
       email,
       password,
+      dateOfBirth,
+      readingPreferences,
     }
     
     const newUser: User = await userRepository.insert(userData)

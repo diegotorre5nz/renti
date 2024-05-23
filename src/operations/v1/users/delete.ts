@@ -5,7 +5,7 @@ import { Operation } from "../../operation"
 
 export type Input = Pick<User, 'id'> 
 
-class GetUser extends Operation<Input, User> {
+class DeleteUser extends Operation<Input, User> {
    protected async run(requestData: Input): Promise<User> {
     const {id} = requestData
     const existingUser: User | undefined = await userRepository.findById(id)
@@ -13,9 +13,11 @@ class GetUser extends Operation<Input, User> {
     if (!existingUser) {
       throw new NotFoundError
     }
-    console.log(existingUser)
-    return existingUser
+
+    const deletedUser: User | undefined = await userRepository.deleteById(id)
+
+    return deletedUser
    }
 }
 
-export const getUser = new GetUser()
+export const deleteUser = new DeleteUser()

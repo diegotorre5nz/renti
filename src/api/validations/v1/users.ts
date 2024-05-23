@@ -11,7 +11,9 @@ export const create = {
   properties: {
     email: { type: 'string', format: 'email' },
     password: { type: 'string', format: 'password' },
+    dateOfBirth: { type: 'string', format: 'date' },
+    readingPreferences: { type: 'string' },
   },
-  required:['email', 'password'],
+  required:['email', 'password', 'dateOfBirth', 'readingPreferences'],
   additionalProperties: false,
 }

@@ -7,14 +7,19 @@
   id: number,
   name: string,
   email: string,
+  dateOfBirth: Date,
+  readingPreferences: string,
   createdAt: Date,
   updatedAt: Date,
+  deletedAt: Date,
  }
 
  export interface UserWithTokens {
   id: number,
   name: string,
   email: string,
+  dateOfBirth: Date,
+  readingPreferences: string,
   createdAt: Date,
   updatedAt: Date,
   authorization: AuthorizationTokens
@@ -31,6 +36,8 @@ export interface UserWithAccessToken {
   id: number,
   name: string,
   email: string,
+  dateOfBirth: Date,
+  readingPreferences: string,
   createdAt: Date,
   updatedAt: Date,
   authorization: AuthorizationAccessToken
@@ -45,14 +52,31 @@ export interface AuthorizationAccessToken {
   id: userInput.id,
   name: userInput.name,
   email: userInput.email,
+  dateOfBirth: userInput.dateOfBirth,
+  readingPreferences: userInput.readingPreferences,
   createdAt: userInput.createdAt,
   updatedAt: userInput.updatedAt,
+  deletedAt: userInput.deletedAt,
  })
+
+ export const deletedUser = (userInput: User): SerializedUser => ({
+  id: userInput.id,
+  name: userInput.name,
+  email: userInput.email,
+  dateOfBirth: userInput.dateOfBirth,
+  readingPreferences: userInput.readingPreferences,
+  createdAt: userInput.createdAt,
+  updatedAt: userInput.updatedAt,
+  deletedAt: userInput.deletedAt,
+ })
+
 
 export const userWithTokens = (userInput: User, accessToken: AccessToken, refreshToken: RefreshToken): UserWithTokens => ({
   id: userInput.id,
   name: userInput.name,
   email: userInput.email,
+  dateOfBirth: userInput.dateOfBirth,
+  readingPreferences: userInput.readingPreferences,
   createdAt: userInput.createdAt,
   updatedAt: userInput.updatedAt,
   authorization: {
@@ -67,6 +91,8 @@ export const userWithTokens = (userInput: User, accessToken: AccessToken, refres
   id: userInput.id,
   name: userInput.name,
   email: userInput.email,
+  dateOfBirth: userInput.dateOfBirth,
+  readingPreferences: userInput.readingPreferences,
   createdAt: userInput.createdAt,
   updatedAt: userInput.updatedAt,
   authorization: {

@@ -10,8 +10,10 @@ router.use(handleErrors)
 router.post('/sessions/create', controllers.session.create)
 router.post('/sessions/refresh', controllers.session.refresh)
 
-router.post('/users', controllers.user.create)
+router.patch('/users/:id', controllers.user.patch)
+router.delete('/users/:id', controllers.user.remove)
 router.get('/users/me', controllers.user.me)
+router.post('/users', controllers.user.create)
 
 router.use(handleNotFound)
 

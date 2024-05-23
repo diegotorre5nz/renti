@@ -10,6 +10,8 @@ export class User extends BaseModel {
   email: string
   name: string
   password: string
+  dateOfBirth: Date
+  readingPreferences: string
 
   protected $transformJSON = {
     omit: ['password', 'deletedAt'],
