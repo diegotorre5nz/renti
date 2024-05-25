@@ -9,7 +9,6 @@ import * as schema from '../../validations/schemas/v1/sessions'
 import  { userWithTokens, userWithAccessToken } from '../../serializers/user'
 
 export const create = compose([
-  validate( schema.create ),
   async (ctx: Context): Promise<void> => {
     const inputData: CreateSessionInput = {
       email: ctx.request.body.email,

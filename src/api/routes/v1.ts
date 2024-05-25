@@ -10,10 +10,18 @@ router.use(handleErrors)
 router.post('/sessions/create', controllers.session.create)
 router.post('/sessions/refresh', controllers.session.refresh)
 
+//-------------- users ----------------------------------------//
 router.patch('/users/:id', controllers.user.patch)
 router.delete('/users/:id', controllers.user.remove)
 router.get('/users/me', controllers.user.me)
 router.post('/users', controllers.user.create)
+
+//-------------- clubs ----------------------------------------//
+router.patch('/clubs/:id', controllers.club.patch)
+router.delete('/clubs/:id', controllers.club.remove)
+router.get('/clubs/:id', controllers.club.get)
+router.get('/clubs', controllers.club.getAll)
+router.post('/clubs', controllers.club.create)
 
 router.use(handleNotFound)
 
