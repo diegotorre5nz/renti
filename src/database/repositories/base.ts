@@ -2,6 +2,7 @@ import type {
   ArrayQueryBuilder,
   MaybeSingleQueryBuilder,
   ModelClass,
+  NumberQueryBuilder,
   QueryBuilderType,
   SingleQueryBuilder,
   Transaction,
@@ -53,6 +54,14 @@ export class BaseRepository<T extends BaseModel>{
 
   deleteById(id: number): SingleQueryBuilder<QueryBuilderType<T>> {
     return this.patchById(id,{ deletedAt: new Date() })
+  }
+
+  patchByIdAndUser(id: number, userId: number, data: object): MaybeSingleQueryBuilder<NumberQueryBuilder<QueryBuilderType<T>>> {
+    return this.query().patch(data).where('user_id','=',userId).findById(id)
+  }
+
+  deleteByIdAndUser(id: number, userId: number): MaybeSingleQueryBuilder<NumberQueryBuilder<QueryBuilderType<T>>> {
+    return this.query().patch({ deletedAt: new Date() }).where('user_id','=',userId).findById(id)
   }
 
 }

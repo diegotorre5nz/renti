@@ -3,19 +3,20 @@ import { Club } from "../../../database/models/club"
 import { clubRepository } from "../../../database/repositories/club"
 import { Operation } from "../../operation"
 
-export type Input = Pick<Club, 'id'> 
+export type Input = Pick<Club, 'id' | 'userId'> 
 
-class DeleteClub extends Operation<Input, Club> {
-   protected async run(requestData: Input): Promise<Club> {
-    const {id} = requestData
-  
-    const deletedClub: Club | undefined = await clubRepository.deleteById(id)
-    
-    if (!deletedClub) {
+class DeleteClub extends Operation<Input, void> {
+   protected async run(requestData: Input): Promise<void> {
+    const {id, userId} = requestData
+
+    const existingClub: Club | undefined = await clubRepository.findByIdWithCreator(id, userId)
+
+    if (!existingClub) {
       throw new NotFoundError
     }
 
-    return deletedClub
+    await clubRepository.deleteByIdAndUser(id, userId)
+    
    }
 }
 

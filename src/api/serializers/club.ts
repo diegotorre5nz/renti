@@ -5,26 +5,26 @@ import { Club } from '../../database/models/club'
 
 export interface ClubWithUser {
   id: number,
-  ceatorName: string,
+  name: string,
+  creatorName: string | undefined,
   createdAt: Date,
   updatedAt: Date,
-  deletedAt: Date,
  }
 
  export const serializedClub = (clubInput: Club): ClubWithUser => ({
   id: clubInput.id,
-  ceatorName: clubInput.name,
+  name: clubInput.name,
+  creatorName: clubInput.creatorName,
   createdAt: clubInput.createdAt,
   updatedAt: clubInput.updatedAt,
-  deletedAt: clubInput.deletedAt,
  })
 
  export const clubWithCreator = (clubInput: Club): ClubWithUser => ({
   id: clubInput.id,
-  ceatorName: clubInput.name,
+  name: clubInput.name,
+  creatorName: clubInput.creatorName,
   createdAt: clubInput.createdAt,
   updatedAt: clubInput.updatedAt,
-  deletedAt: clubInput.deletedAt,
  })
 
  export const clubWithCreatorArray = (clubInput: Club[]): ClubWithUser[] => {

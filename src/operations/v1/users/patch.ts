@@ -5,8 +5,8 @@ import { Operation } from "../../operation"
 
 export type Input = Pick<User, 'id' | 'name' | 'email' | 'password' | 'dateOfBirth' | 'readingPreferences'>
 
-class PatchUser extends Operation<Input, User> {
-   protected async run(requestData: Input): Promise<User> {
+class PatchUser extends Operation<Input, void> {
+   protected async run(requestData: Input): Promise<void> {
     const {id, name, email, password, dateOfBirth, readingPreferences} = requestData
     const existingUser: User | undefined = await userRepository.findById(id)
     
@@ -22,13 +22,8 @@ class PatchUser extends Operation<Input, User> {
       readingPreferences,
     }
     
-    const updatedUser: User | undefined = await userRepository.patchById(id, userData)
+    await userRepository.patchById(id, userData)
 
-    if (!updatedUser) {
-      throw new NotFoundError
-    }
-    console.log(updatedUser)
-    return updatedUser
    }
 }
 

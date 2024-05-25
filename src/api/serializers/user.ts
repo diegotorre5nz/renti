@@ -11,7 +11,6 @@
   readingPreferences: string,
   createdAt: Date,
   updatedAt: Date,
-  deletedAt: Date,
  }
 
  export interface UserWithTokens {
@@ -56,7 +55,6 @@ export interface AuthorizationAccessToken {
   readingPreferences: userInput.readingPreferences,
   createdAt: userInput.createdAt,
   updatedAt: userInput.updatedAt,
-  deletedAt: userInput.deletedAt,
  })
 
  export const deletedUser = (userInput: User): SerializedUser => ({
@@ -67,7 +65,6 @@ export interface AuthorizationAccessToken {
   readingPreferences: userInput.readingPreferences,
   createdAt: userInput.createdAt,
   updatedAt: userInput.updatedAt,
-  deletedAt: userInput.deletedAt,
  })
 
 

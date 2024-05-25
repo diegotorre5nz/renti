@@ -9,7 +9,7 @@ export class Club extends BaseModel {
 
   name: string
   userId: number
-  ceatorName: string | undefined
+  creatorName: string | undefined
 
   protected $transformJSON = {
     omit: ['deletedAt'],

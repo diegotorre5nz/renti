@@ -12,6 +12,7 @@ import { deleteUser } from '../../../operations/v1/users/delete'
 import * as schema from '../../validations/schemas/v1/users'
 import  { userWithTokens, serializedUser } from '../../serializers/user'
 import { authenticated } from '../../middleware/authentication'
+import { authorized } from '../../middleware/authorization'
 import { User } from '../../../database/models/user'
 import {NotFoundError} from '../../../utils/errors'
 
@@ -52,35 +53,29 @@ export const me = compose([
 export const patch = compose([
   validate( schema.patch ),
   authenticated,
+  authorized,
   async (ctx: Context): Promise<void> => {
     const inputData: patchUserInput = {
-      id: ctx.params.id,
+      id: ctx.params.userId,
       ...ctx.request.body,
     }
 
-    const updatedUser: User | undefined = await patchUser.execute(inputData)
+    await patchUser.execute(inputData)
 
-    if(!updatedUser){
-      throw new NotFoundError()
-    }
-
-    ctx.ok(serializedUser(updatedUser))
+    ctx.ok()
   },
 ])
 
 export const remove = compose([
   authenticated,
+  authorized,
   async (ctx: Context): Promise<void> => {
     const inputData: getUserInput = {
-      id: ctx.state.userId,
+      id: ctx.params.userId,
     }
     
-    const deletedUser: User | undefined = await deleteUser.execute(inputData)
-
-    if(!deletedUser){
-      throw new NotFoundError()
-    }
+    await deleteUser.execute(inputData)
     
-    ctx.ok(serializedUser(deletedUser))
+    ctx.ok()
   },
 ])

@@ -1,5 +1,6 @@
 import {
   MaybeSingleQueryBuilder,
+  NumberQueryBuilder,
   Page,
   QueryBuilder,
   QueryBuilderType,
@@ -42,21 +43,22 @@ export class ClubRepository extends BaseRepository<Club> {
       .page(pagination.page, pagination.pageSize)
   }
 
-  async findByIdWithCreator(id: number): Promise<QueryBuilder<Club, Club | undefined>>  {
-    const result = await Club.query().select(raw('clubs.*, creator.name as creatorName')).findById(id)
-    .whereRaw('clubs.deleted_at IS NULL')
+  async findByIdWithCreator(id: number, creatorId: number): Promise<QueryBuilder<Club, Club | undefined>>  {
+    const result = await Club.query().select(raw('clubs.*, creator.name as "creatorName"')).findById(id)
+    .whereRaw('clubs.deleted_at IS NULL AND clubs.user_id = ?', creatorId)
     .joinRaw('LEFT JOIN users as creator ON clubs.user_id = creator.id')
     console.log(result)
     return result
   }
 
   async findAllWithCreator(id: number): Promise<QueryBuilder<Club, Club[] | undefined>>  {
-    const result: Club[] = await Club.query().select(raw('clubs.*, creator.name as creatorName'))
+    const result: Club[] = await this.query().select(raw('clubs.*, creator.name as "creatorName"'))
     .whereRaw('clubs.deleted_at IS NULL')
     .joinRaw('LEFT JOIN users as creator ON clubs.user_id = creator.id')
     console.log(result)
     return result
   }
+
 }
 
 export const clubRepository = new ClubRepository()
