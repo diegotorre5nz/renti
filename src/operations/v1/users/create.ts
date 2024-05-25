@@ -4,6 +4,7 @@ import { userRepository } from "../../../database/repositories/user"
 import { Operation } from "../../operation"
 import { AccessToken, newAccessToken } from "../../../services/internal/access-tokens"
 import { RefreshToken, newRefreshToken } from "../../../services/internal/refresh-tokens"
+import { refreshTokenRepository } from "../../../database/repositories/refresh-token"
 
 export type Input = Pick<User, 'name' | 'email' | 'password' | 'dateOfBirth' | 'readingPreferences'> & Pick<RefreshToken, 'ipAddress'>
 
@@ -32,13 +33,15 @@ class CreateUser extends Operation<Input, Output> {
     
     const newUser: User = await userRepository.insert(userData)
     const refreshTokenData = newRefreshToken(newUser.id, ipAddress)
-    const accessTokenData = newAccessToken({ userId: newUser.id, refreshToken:  refreshTokenData.token })
-    
+    const accessTokenData = newAccessToken({ userId: newUser.id, refreshToken: refreshTokenData.token })
+    const savedRefreshTokenData = await refreshTokenRepository.insert(refreshTokenData)
+
     return { 
       user: newUser,
       accessToken: accessTokenData,
-      refreshToken: refreshTokenData
+      refreshToken: savedRefreshTokenData
     }
+    
    }
 }
 
