@@ -60,13 +60,9 @@ export const patch = compose([
       ...ctx.request.body,
     }
 
-    const updatedUser: User | undefined = await patchUser.execute(inputData)
+    await patchUser.execute(inputData)
 
-    if(!updatedUser){
-      throw new NotFoundError()
-    }
-
-    ctx.ok(serializedUser(updatedUser))
+    ctx.ok()
   },
 ])
 
@@ -78,12 +74,8 @@ export const remove = compose([
       id: ctx.params.userId,
     }
     
-    const deletedUser: User | undefined = await deleteUser.execute(inputData)
-
-    if(!deletedUser){
-      throw new NotFoundError()
-    }
+    await deleteUser.execute(inputData)
     
-    ctx.ok(serializedUser(deletedUser))
+    ctx.ok()
   },
 ])

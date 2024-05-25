@@ -59,13 +59,6 @@ export class ClubRepository extends BaseRepository<Club> {
     return result
   }
 
-  async findDeletedByIdWithCreator(id: number, creatorId: number): Promise<QueryBuilder<Club, Club | undefined>>  {
-    const result = await Club.query().select(raw('clubs.*, creator.name as "creatorName"')).findById(id)
-    .whereRaw('clubs.deleted_at IS NOT NULL AND clubs.user_id = ?', creatorId)
-    .joinRaw('LEFT JOIN users as creator ON clubs.user_id = creator.id')
-    console.log(result)
-    return result
-  }
 }
 
 export const clubRepository = new ClubRepository()

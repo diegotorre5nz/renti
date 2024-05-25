@@ -79,13 +79,9 @@ export const patch = compose([
       ...ctx.request.body,
     }
 
-    const updatedClub: Club | undefined = await patchClub.execute(inputData)
+    await patchClub.execute(inputData)
 
-    if(!updatedClub){
-      throw new NotFoundError()
-    }
-
-    ctx.ok(serializedClub(updatedClub))
+    ctx.ok()
   },
 ])
 
@@ -98,12 +94,8 @@ export const remove = compose([
       userId: ctx.params.userId,
     }
     
-    const deletedClub: Club | undefined = await deleteClub.execute(inputData)
+    await deleteClub.execute(inputData)
 
-    if(!deletedClub){
-      throw new NotFoundError()
-    }
-    
-    ctx.ok(serializedClub(deletedClub))
+    ctx.ok()
   },
 ])

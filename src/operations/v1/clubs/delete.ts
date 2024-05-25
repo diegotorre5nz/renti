@@ -5,8 +5,8 @@ import { Operation } from "../../operation"
 
 export type Input = Pick<Club, 'id' | 'userId'> 
 
-class DeleteClub extends Operation<Input, Club> {
-   protected async run(requestData: Input): Promise<Club> {
+class DeleteClub extends Operation<Input, void> {
+   protected async run(requestData: Input): Promise<void> {
     const {id, userId} = requestData
 
     const existingClub: Club | undefined = await clubRepository.findByIdWithCreator(id, userId)
@@ -17,13 +17,6 @@ class DeleteClub extends Operation<Input, Club> {
 
     await clubRepository.deleteByIdAndUser(id, userId)
     
-    const deletedClub: Club | undefined = await clubRepository.findDeletedByIdWithCreator(id, userId)
-
-    if (!deletedClub) {
-      throw new NotFoundError
-    }
-
-    return deletedClub
    }
 }
 

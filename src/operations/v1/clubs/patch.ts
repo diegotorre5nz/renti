@@ -5,8 +5,8 @@ import { Operation } from "../../operation"
 
 export type Input = Pick<Club, 'id' | 'name' | 'userId'>
 
-class PatchClub extends Operation<Input, Club> {
-   protected async run(requestData: Input): Promise<Club> {
+class PatchClub extends Operation<Input, void> {
+   protected async run(requestData: Input): Promise<void> {
     const {id, name, userId } = requestData
     
     const clubData = {
@@ -15,13 +15,6 @@ class PatchClub extends Operation<Input, Club> {
 
     await clubRepository.patchByIdAndUser(id, userId, clubData)
 
-    const updatedClub: Club | undefined = await clubRepository.findByIdWithCreator(id, userId)
-
-    if (!updatedClub) {
-      throw new NotFoundError
-    }
-
-    return updatedClub
    }
 }
 

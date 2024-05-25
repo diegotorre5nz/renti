@@ -9,7 +9,6 @@ export interface ClubWithUser {
   creatorName: string | undefined,
   createdAt: Date,
   updatedAt: Date,
-  deletedAt: Date,
  }
 
  export const serializedClub = (clubInput: Club): ClubWithUser => ({
@@ -18,7 +17,6 @@ export interface ClubWithUser {
   creatorName: clubInput.creatorName,
   createdAt: clubInput.createdAt,
   updatedAt: clubInput.updatedAt,
-  deletedAt: clubInput.deletedAt,
  })
 
  export const clubWithCreator = (clubInput: Club): ClubWithUser => ({
@@ -27,7 +25,6 @@ export interface ClubWithUser {
   creatorName: clubInput.creatorName,
   createdAt: clubInput.createdAt,
   updatedAt: clubInput.updatedAt,
-  deletedAt: clubInput.deletedAt,
  })
 
  export const clubWithCreatorArray = (clubInput: Club[]): ClubWithUser[] => {
