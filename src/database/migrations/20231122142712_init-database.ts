@@ -1,5 +1,4 @@
 import type { Knex } from 'knex'
-import { defaultTo } from 'ramda'
 
 exports.up = async (knex: Knex) => {
   const createIdAndTimestamps = (table: Knex.CreateTableBuilder): void => {
@@ -35,7 +34,7 @@ exports.up = async (knex: Knex) => {
 
 exports.down = (knex: Knex) =>
 knex.schema
-  .dropTable('refreshTokens')
+  .dropTable('refresh_tokens')
   .dropTable('users')
 
 

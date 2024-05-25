@@ -1,5 +1,4 @@
 import type { Knex } from 'knex'
-import { defaultTo } from 'ramda'
 
 exports.up = async (knex: Knex) => {
   await knex.schema
