@@ -2,6 +2,7 @@ import type { Context } from 'koa'
 import compose from 'koa-compose'
 import { createClub, Output as createClubOutput } from '../../../operations/v1/clubs/create'
 import { Input as getClubInput } from '../../../operations/v1/clubs/get'
+import { Input as getAllClubInput } from '../../../operations/v1/clubs/get-all'
 import { getClub } from '../../../operations/v1/clubs/get'
 import { getAll as getAllClubs } from '../../../operations/v1/clubs/get-all'
 import { Input as patchClubInput } from '../../../operations/v1/clubs/patch'
@@ -12,11 +13,13 @@ import { deleteClub } from '../../../operations/v1/clubs/delete'
 import * as schema from '../../validations/schemas/v1/club'
 import  { clubWithCreator, clubWithCreatorArray, serializedClub } from '../../serializers/club'
 import { authenticated } from '../../middleware/authentication'
+import { authorized } from '../../middleware/authorization'
 import { Club } from '../../../database/models/club'
 import {NotFoundError} from '../../../utils/errors'
 
 export const create = compose([
   authenticated,
+  authorized,
   validate( schema.create ),
   async (ctx: Context): Promise<void> => {
     const inputData: createClubInput = {
@@ -31,9 +34,11 @@ export const create = compose([
 
 export const get = compose([
   authenticated,
+  authorized,
   async (ctx: Context): Promise<void> => {
     const inputData: getClubInput = {
       id: ctx.params.id,
+      userId: ctx.params.userId
     }
     
     const existingClub: Club | undefined = await getClub.execute(inputData)
@@ -49,26 +54,28 @@ export const get = compose([
 export const getAll = compose([
   authenticated,
   async (ctx: Context): Promise<void> => {
-    const inputData: getClubInput = {
+    const inputData: getAllClubInput = {
       id: ctx.params.id,
     }
     
-    const existingClub: Club[] | undefined = await getAllClubs.execute(inputData)
+    const existingClubs: Club[] | undefined = await getAllClubs.execute(inputData)
 
-    if(!existingClub){
+    if(!existingClubs){
       throw new NotFoundError()
     }
-    
-    ctx.ok(clubWithCreatorArray(existingClub))
+    console.log(existingClubs)
+    ctx.ok(clubWithCreatorArray(existingClubs))
   },
 ])
 
 export const patch = compose([
   validate( schema.patch ),
   authenticated,
+  authorized,
   async (ctx: Context): Promise<void> => {
     const inputData: patchClubInput = {
       id: ctx.params.id,
+      userId: ctx.params.userId,
       ...ctx.request.body,
     }
 
@@ -84,9 +91,11 @@ export const patch = compose([
 
 export const remove = compose([
   authenticated,
+  authorized,
   async (ctx: Context): Promise<void> => {
     const inputData: getClubInput = {
       id: ctx.params.id,
+      userId: ctx.params.userId,
     }
     
     const deletedClub: Club | undefined = await deleteClub.execute(inputData)
