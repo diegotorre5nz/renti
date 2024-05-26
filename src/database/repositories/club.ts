@@ -47,7 +47,6 @@ export class ClubRepository extends BaseRepository<Club> {
     const result = await Club.query().select(raw('clubs.*, creator.name as "creatorName"')).findById(id)
     .whereRaw('clubs.deleted_at IS NULL AND clubs.user_id = ?', creatorId)
     .joinRaw('LEFT JOIN users as creator ON clubs.user_id = creator.id')
-    console.log(result)
     return result
   }
 
@@ -55,7 +54,6 @@ export class ClubRepository extends BaseRepository<Club> {
     const result: Club[] = await this.query().select(raw('clubs.*, creator.name as "creatorName"'))
     .whereRaw('clubs.deleted_at IS NULL')
     .joinRaw('LEFT JOIN users as creator ON clubs.user_id = creator.id')
-    console.log(result)
     return result
   }
 

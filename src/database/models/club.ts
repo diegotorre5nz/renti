@@ -15,7 +15,7 @@ export class Club extends BaseModel {
     omit: ['deletedAt'],
   }
 
-  static relationMappings = { 
+  static relationMappings: RelationMappings = { 
     creator: {
       relation: Model.BelongsToOneRelation,
       modelClass: join(__dirname, 'user'),
@@ -24,6 +24,20 @@ export class Club extends BaseModel {
         to: 'users.id',
       },
     },
+
+    user: {
+      relation: Model.HasOneThroughRelation,
+      modelClass: join(__dirname, 'user'),
+      join: {
+        from: 'club.id',
+        through: {
+          // clubs_users is the join table.
+          from: 'clubs_users.clubId',
+          to: 'clubs_users.userId'
+        },
+        to: 'user.id'
+      }
+    }
   }
 
   async $beforeInsert(): Promise<void> {

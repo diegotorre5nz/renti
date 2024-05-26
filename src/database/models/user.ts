@@ -17,8 +17,9 @@ export class User extends BaseModel {
     omit: ['password', 'deletedAt'],
   }
 
-  static relationMappings(): RelationMappings {
-    return {
+
+  static relationMappings: RelationMappings = {
+    
       refreshToken: {
         relation: Model.HasManyRelation,
         modelClass: join(__dirname, 'refresh_tokens'),
@@ -27,7 +28,20 @@ export class User extends BaseModel {
           to: 'refresh_tokens.userId',
         },
       },
-    }
+
+      club: {
+        relation: Model.HasOneThroughRelation,
+        modelClass: join(__dirname, 'club'),
+        join: {
+          from: 'user.id',
+          through: {
+            // clubs_users is the join table.
+            from: 'clubs_users.userId',
+            to: 'clubs_users.clubId'
+          },
+          to: 'club.id'
+        }
+      }
   }
 
   async $beforeInsert(): Promise<void> {

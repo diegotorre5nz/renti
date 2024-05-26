@@ -13,7 +13,6 @@ class GetUser extends Operation<Input, User> {
     if (!existingUser) {
       throw new NotFoundError
     }
-    console.log(existingUser)
     return existingUser
    }
 }

@@ -23,6 +23,10 @@ router.get('/users/:userId/clubs/:id', controllers.club.get)
 router.get('/clubs', controllers.club.getAll)
 router.post('/users/:userId/clubs', controllers.club.create)
 
+//-------------- clubs actions ----------------------------------------//
+router.post('/users/:userId/clubs/:clubId/join', controllers.club.join)
+router.post('/users/:userId/clubs/:clubId/unjoin', controllers.club.unjoin)
+
 router.use(handleNotFound)
 
 export const v1Routes = router.routes()

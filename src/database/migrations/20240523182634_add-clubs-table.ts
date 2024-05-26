@@ -17,7 +17,7 @@ exports.up = async (knex: Knex) => {
   })
 
   await knex.schema
-  // --- clubs-users ------------------
+  // --- club-user ------------------
   .createTable('clubs_users', table => {
     createIdAndTimestamps(table)
     table.integer('club_id').notNullable().unsigned()
