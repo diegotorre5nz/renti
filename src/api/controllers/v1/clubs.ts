@@ -10,6 +10,10 @@ import { patchClub } from '../../../operations/v1/clubs/patch'
 import { validate } from '../../middleware/controller-validations'
 import { Input as createClubInput } from '../../../operations/v1/clubs/create'
 import { deleteClub } from '../../../operations/v1/clubs/delete'
+import { Input as joinClubInput } from '../../../operations/v1/clubs/join'
+import { joinClub } from '../../../operations/v1/clubs/join'
+import { Input as unjoinClubInput } from '../../../operations/v1/clubs/unjoin'
+import { unjoinClub } from '../../../operations/v1/clubs/unjoin'
 import * as schema from '../../validations/schemas/v1/club'
 import  { clubWithCreator, clubWithCreatorArray, serializedClub } from '../../serializers/club'
 import { authenticated } from '../../middleware/authentication'
@@ -26,7 +30,6 @@ export const create = compose([
       name: ctx.request.body.name,
       userId: ctx.state.userId,
     }
-    console.log(inputData)
     const operationResult: createClubOutput = await createClub.execute(inputData)
     ctx.created(clubWithCreator(operationResult.club))
   },
@@ -63,7 +66,6 @@ export const getAll = compose([
     if(!existingClubs){
       throw new NotFoundError()
     }
-    console.log(existingClubs)
     ctx.ok(clubWithCreatorArray(existingClubs))
   },
 ])
@@ -95,6 +97,36 @@ export const remove = compose([
     }
     
     await deleteClub.execute(inputData)
+
+    ctx.ok()
+  },
+])
+
+export const join = compose([
+  authenticated,
+  authorized,
+  async (ctx: Context): Promise<void> => {
+    const inputData: joinClubInput = {
+      clubId: ctx.params.clubId,
+      userId: ctx.params.userId,
+    }
+    console.log(inputData)
+    await joinClub.execute(inputData)
+
+    ctx.ok()
+  },
+])
+
+export const unjoin = compose([
+  authenticated,
+  authorized,
+  async (ctx: Context): Promise<void> => {
+    const inputData: unjoinClubInput = {
+      clubId: ctx.params.clubId,
+      userId: ctx.params.userId,
+    }
+    
+    await unjoinClub.execute(inputData)
 
     ctx.ok()
   },
