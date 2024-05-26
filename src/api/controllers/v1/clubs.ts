@@ -110,7 +110,7 @@ export const join = compose([
       clubId: ctx.params.clubId,
       userId: ctx.params.userId,
     }
-    console.log(inputData)
+
     await joinClub.execute(inputData)
 
     ctx.ok()
