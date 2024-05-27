@@ -15,13 +15,13 @@ import { joinClub } from '../../../operations/v1/clubs/join'
 import { Input as unjoinClubInput } from '../../../operations/v1/clubs/unjoin'
 import { unjoinClub } from '../../../operations/v1/clubs/unjoin'
 import * as schema from '../../validations/schemas/v1/club'
-import  { clubWithCreator, clubWithCreatorArray, serializedClub } from '../../serializers/club'
+import  { clubWithCreator, clubWithCreatorArray } from '../../serializers/club'
 import { authenticated } from '../../middleware/authentication'
 import { authorized } from '../../middleware/authorization'
 import { Club } from '../../../database/models/club'
 import {NotFoundError} from '../../../utils/errors'
 
-export const create = compose([
+export const create = compose([ 
   authenticated,
   authorized,
   validate( schema.create ),
@@ -40,7 +40,7 @@ export const get = compose([
   authorized,
   async (ctx: Context): Promise<void> => {
     const inputData: getClubInput = {
-      id: ctx.params.id,
+      id: ctx.params.clubId,
       userId: ctx.params.userId
     }
     
@@ -58,7 +58,7 @@ export const getAll = compose([
   authenticated,
   async (ctx: Context): Promise<void> => {
     const inputData: getAllClubInput = {
-      id: ctx.params.id,
+      id: ctx.params.clubId,
     }
     
     const existingClubs: Club[] | undefined = await getAllClubs.execute(inputData)
@@ -76,7 +76,7 @@ export const patch = compose([
   authorized,
   async (ctx: Context): Promise<void> => {
     const inputData: patchClubInput = {
-      id: ctx.params.id,
+      id: ctx.params.clubId,
       userId: ctx.params.userId,
       ...ctx.request.body,
     }
@@ -92,7 +92,7 @@ export const remove = compose([
   authorized,
   async (ctx: Context): Promise<void> => {
     const inputData: getClubInput = {
-      id: ctx.params.id,
+      id: ctx.params.clubId,
       userId: ctx.params.userId,
     }
     

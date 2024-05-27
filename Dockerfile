@@ -13,6 +13,7 @@ RUN npm ci && npm cache clean --force && npm install typescript
 
 FROM base AS dev
 COPY ./src /app/src
+COPY ./docs /app/docs
 ENV NODE_ENV=development
 ENV PATH /app/node_modules/.bin:${PATH}
 RUN npm install -D

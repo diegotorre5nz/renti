@@ -11,14 +11,6 @@ export interface ClubWithUser {
   updatedAt: Date,
  }
 
- export const serializedClub = (clubInput: Club): ClubWithUser => ({
-  id: clubInput.id,
-  name: clubInput.name,
-  creatorName: clubInput.creatorName,
-  createdAt: clubInput.createdAt,
-  updatedAt: clubInput.updatedAt,
- })
-
  export const clubWithCreator = (clubInput: Club): ClubWithUser => ({
   id: clubInput.id,
   name: clubInput.name,
