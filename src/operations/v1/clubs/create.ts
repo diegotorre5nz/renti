@@ -1,6 +1,7 @@
-import { ConflictError } from "../../../utils/errors"
+import { ConflictError, NotFoundError } from "../../../utils/errors"
 import { Club } from "../../../database/models/club"
 import { clubRepository } from "../../../database/repositories/club"
+import { clubUserRepository } from "../../../database/repositories/club-user"
 import { Operation } from "../../operation"
 
 export type Input = Pick<Club, 'name' | 'userId' >
@@ -25,9 +26,23 @@ class CreateClub extends Operation<Input, Output> {
     
     const newClub: Club = await clubRepository.insert(clubData)
 
-    return { 
-      club: newClub,
+    const joinClubData = {
+      clubId: newClub.id,
+      userId
     }
+
+    await clubUserRepository.insert(joinClubData)
+
+    const newJoinedClub: Club | undefined = await clubRepository.findByIdWithCreator(joinClubData.clubId, joinClubData.userId)
+    
+    if (!newJoinedClub) {
+      throw new NotFoundError
+    }
+
+    return {
+      club: newJoinedClub
+    }
+
    }
 }
 
