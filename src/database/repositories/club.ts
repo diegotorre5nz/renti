@@ -58,9 +58,9 @@ export class ClubRepository extends BaseRepository<Club> {
     return result
   }
 
-  async findJointWithCreator(): Promise<QueryBuilder<Club, Club[] | undefined>>  {
-    const result: Club[] = await this.query().select(raw('clubs.*, creator.name as "creatorName"'))
-    .whereRaw('clubs.deleted_at IS NULL AND jointClub.club_id IS NOT NULL')
+  async findJointWithCreator(userId: number): Promise<QueryBuilder<Club, Club[] | undefined>>  {
+    const result: Club[] = await this.query().select(raw('DISTINCT clubs.*, creator.name as "creatorName"'))
+    .whereRaw('clubs.deleted_at IS NULL AND jointClub.club_id IS NOT NULL AND jointClub.user_id = ?', userId)
     .joinRaw('LEFT JOIN users as creator ON clubs.user_id = creator.id')
     .joinRaw('LEFT JOIN clubs_users as jointClub ON clubs.user_id = jointClub.user_id')
     return result

@@ -6,8 +6,9 @@ import { Operation } from "../../operation"
 export type Input = Pick<Club, 'id'> 
 
 class GetAllJoint extends Operation<Input, Club[]> {
-   protected async run(): Promise<Club[]> {
-    const existingClub: Club[] | undefined = await clubRepository.findJointWithCreator()
+   protected async run(requestData: Input): Promise<Club[]> {
+    const { id } = requestData
+    const existingClub: Club[] | undefined = await clubRepository.findJointWithCreator(id)
     if (!existingClub) {
       throw new NotFoundError
     }

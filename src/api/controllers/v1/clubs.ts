@@ -77,7 +77,7 @@ export const getAllJoint = compose([
   authenticated,
   async (ctx: Context): Promise<void> => {
     const inputData: getAllJointClubsInput = {
-      id: ctx.params.clubId,
+      id: ctx.state.userId,
     }
     
     const existingClubs: Club[] | undefined = await getAllJointClubs.execute(inputData)
