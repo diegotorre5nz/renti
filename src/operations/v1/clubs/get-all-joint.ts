@@ -5,14 +5,15 @@ import { Operation } from "../../operation"
 
 export type Input = Pick<Club, 'id'> 
 
-class GetAll extends Operation<Input, Club[]> {
+class GetAllJoint extends Operation<Input, Club[]> {
    protected async run(): Promise<Club[]> {
-    const clubs: Club[] | undefined = await clubRepository.findAllWithCreator()
-    if (!clubs) {
+    const existingClub: Club[] | undefined = await clubRepository.findJointWithCreator()
+    if (!existingClub) {
       throw new NotFoundError
     }
-    return clubs
+
+    return existingClub
    }
 }
 
-export const getAll = new GetAll()
+export const getAllJoint = new GetAllJoint()

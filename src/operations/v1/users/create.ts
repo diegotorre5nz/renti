@@ -10,8 +10,6 @@ export type Input = Pick<User, 'name' | 'email' | 'password' | 'dateOfBirth' | '
 
 export interface Output {
   user: User
-  accessToken: AccessToken
-  refreshToken: RefreshToken
 }
 
 class CreateUser extends Operation<Input, Output> {
@@ -32,14 +30,9 @@ class CreateUser extends Operation<Input, Output> {
     }
     
     const newUser: User = await userRepository.insert(userData)
-    const refreshTokenData = newRefreshToken(newUser.id, ipAddress)
-    const accessTokenData = newAccessToken({ userId: newUser.id, refreshToken: refreshTokenData.token })
-    const savedRefreshTokenData = await refreshTokenRepository.insert(refreshTokenData)
 
     return { 
       user: newUser,
-      accessToken: accessTokenData,
-      refreshToken: savedRefreshTokenData
     }
     
    }

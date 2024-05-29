@@ -21,6 +21,7 @@ router.patch('/users/:userId/clubs/:clubId', controllers.club.patch)
 router.delete('/users/:userId/clubs/:clubId', controllers.club.remove)
 router.get('/users/:userId/clubs/:clubId', controllers.club.get)
 router.get('/clubs', controllers.club.getAll)
+router.get('/jointclubs', controllers.club.getAllJoint)
 router.post('/users/:userId/clubs', controllers.club.create)
 
 //-------------- clubs actions ----------------------------------------//

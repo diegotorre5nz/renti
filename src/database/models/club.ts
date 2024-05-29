@@ -10,6 +10,7 @@ export class Club extends BaseModel {
   name: string
   userId: number
   creatorName: string | undefined
+  isJoint: boolean | undefined
 
   protected $transformJSON = {
     omit: ['deletedAt'],
