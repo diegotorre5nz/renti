@@ -6,6 +6,8 @@ import { Input as getAllClubInput } from '../../../operations/v1/clubs/get-all'
 import { getClub } from '../../../operations/v1/clubs/get'
 import { getAll as getAllClubs } from '../../../operations/v1/clubs/get-all'
 import { Input as patchClubInput } from '../../../operations/v1/clubs/patch'
+import { getAllJoint as getAllJointClubs } from '../../../operations/v1/clubs/get-all-joint'
+import { Input as getAllJointClubsInput } from '../../../operations/v1/clubs/get-all-joint'
 import { patchClub } from '../../../operations/v1/clubs/patch'
 import { validate } from '../../middleware/controller-validations'
 import { Input as createClubInput } from '../../../operations/v1/clubs/create'
@@ -61,7 +63,24 @@ export const getAll = compose([
       id: ctx.params.clubId,
     }
     
-    const existingClubs: Club[] | undefined = await getAllClubs.execute(inputData)
+    const clubs: Club[] | undefined = await getAllClubs.execute(inputData)
+
+    if(!clubs){
+      throw new NotFoundError()
+    }
+    
+    ctx.ok(clubWithCreatorArray(clubs))
+  },
+])
+
+export const getAllJoint = compose([
+  authenticated,
+  async (ctx: Context): Promise<void> => {
+    const inputData: getAllJointClubsInput = {
+      id: ctx.params.clubId,
+    }
+    
+    const existingClubs: Club[] | undefined = await getAllJointClubs.execute(inputData)
 
     if(!existingClubs){
       throw new NotFoundError()

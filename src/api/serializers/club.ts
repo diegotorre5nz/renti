@@ -7,6 +7,7 @@ export interface ClubWithUser {
   id: number,
   name: string,
   creatorName: string | undefined,
+  isJoint: boolean | undefined,
   createdAt: Date,
   updatedAt: Date,
  }
@@ -15,6 +16,7 @@ export interface ClubWithUser {
   id: clubInput.id,
   name: clubInput.name,
   creatorName: clubInput.creatorName,
+  isJoint: clubInput.isJoint,
   createdAt: clubInput.createdAt,
   updatedAt: clubInput.updatedAt,
  })

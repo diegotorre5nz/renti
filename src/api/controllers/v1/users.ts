@@ -10,7 +10,7 @@ import { validate } from '../../middleware/controller-validations'
 import { Input as deleteUserInput } from '../../../operations/v1/users/delete'
 import { deleteUser } from '../../../operations/v1/users/delete'
 import * as schema from '../../validations/schemas/v1/users'
-import  { userWithTokens, serializedUser } from '../../serializers/user'
+import  { serializedUser } from '../../serializers/user'
 import { authenticated } from '../../middleware/authentication'
 import { authorized } from '../../middleware/authorization'
 import { User } from '../../../database/models/user'
@@ -29,7 +29,7 @@ export const create = compose([
     }
     
     const operationResult: createUserOutput = await createUser.execute(inputData)
-    ctx.created(userWithTokens(operationResult.user, operationResult.accessToken, operationResult.refreshToken))
+    ctx.created(serializedUser(operationResult.user))
   },
 ])
 
