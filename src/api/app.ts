@@ -27,11 +27,11 @@ const services: Services = {
   server,
 }
 
+app.use(docsRoutes)
 app.use(koaHelmet())
 app.use(koaCompress())
 app.use(koaCors())
 app.use(koaBody())
-app.use(docsRoutes)
 app.use(v1Routes)
 
 app.context.ok = function(body: Object): void {

@@ -4,7 +4,7 @@ import { Context } from 'koa'
 import yamljs from 'yamljs'
 import { koaSwagger } from 'koa2-swagger-ui'
 
-const router = new Router<{}, Context> ({ prefix: '/docs' })
+const router = new Router<{}, Context> ({ prefix: '/' })
 const spec = yamljs.load(process.cwd() + '/docs/openapi.yaml');
 
 router.use(handleErrors)
