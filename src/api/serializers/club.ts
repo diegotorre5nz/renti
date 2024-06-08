@@ -6,6 +6,7 @@ import { Club } from '../../database/models/club'
 export interface ClubWithUser {
   id: number,
   name: string,
+  userId: number | undefined,
   creatorName: string | undefined,
   isJoint: boolean | undefined,
   createdAt: Date,
@@ -15,6 +16,7 @@ export interface ClubWithUser {
  export const clubWithCreator = (clubInput: Club): ClubWithUser => ({
   id: clubInput.id,
   name: clubInput.name,
+  userId: clubInput.userId,
   creatorName: clubInput.creatorName,
   isJoint: clubInput.isJoint,
   createdAt: clubInput.createdAt,
